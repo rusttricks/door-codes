@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rust Door Codes Vault</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#0b0b0b;
+  --panel:#161616;
+  --panel2:#1d1d1d;
+  --orange:#ff6a00;
+  --orange2:#cf5100;
+  --text:#f2f2f2;
+  --muted:#8f8f8f;
+  --border:rgba(255,106,0,.25);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:
+    radial-gradient(circle at top right, rgba(255,106,0,.12), transparent 25%),
+    radial-gradient(circle at bottom left, rgba(255,106,0,.08), transparent 20%),
+    linear-gradient(180deg,#0a0a0a 0%,#121212 100%);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+.container{
+  width:min(1500px,94%);
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+.hero{
+  padding:70px 0 40px;
+  border-bottom:2px solid var(--border);
+  position:relative;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:220px;
+  height:2px;
+  background:var(--orange);
+  box-shadow:0 0 18px var(--orange);
+}
+
+.logo{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(3rem,6vw,6rem);
+  font-weight:800;
+  line-height:.95;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  text-shadow:0 0 35px rgba(255,106,0,.35);
+}
+
+.logo span{
+  color:var(--orange);
+}
+
+.subtitle{
+  margin-top:22px;
+  color:var(--muted);
+  max-width:900px;
+  line-height:1.6;
+  font-size:1.15rem;
+}
+
+.search-wrap{
+  margin-top:35px;
+  max-width:700px;
+}
+
+.search{
+  width:100%;
+  background:#171717;
+  border:2px solid var(--border);
+  color:var(--text);
+  padding:18px 22px;
+  font-size:1.05rem;
+  outline:none;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:.2s;
+}
+
+.search:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 25px rgba(255,106,0,.2);
+}
+
+.stats{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:26px;
+}
+
+.stat{
+  background:linear-gradient(180deg,#1a1a1a,#101010);
+  border:1px solid var(--border);
+  padding:15px 20px;
+  min-width:180px;
+  position:relative;
+}
+
+.stat::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:3px;
+  background:var(--orange);
+}
+
+.stat strong{
+  display:block;
+  font-size:2rem;
+  font-family:'Orbitron',sans-serif;
+  color:var(--orange);
+}
+
+.stat span{
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.section{
+  padding:45px 0;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:24px;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.section-title::before{
+  content:"";
+  width:70px;
+  height:4px;
+  background:var(--orange);
+  box-shadow:0 0 14px var(--orange);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.35)),
+    linear-gradient(180deg,#1b1b1b,#111);
+  border:1px solid rgba(255,106,0,.18);
+  overflow:hidden;
+  position:relative;
+  transition:.18s;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,.012) 8px,
+      rgba(255,255,255,.012) 16px
+    );
+  pointer-events:none;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--orange);
+  box-shadow:0 0 20px rgba(255,106,0,.14);
+}
+
+.card-inner{
+  padding:20px;
+  position:relative;
+  z-index:1;
+}
+
+.code{
+  font-family:'Orbitron',sans-serif;
+  font-size:2rem;
+  color:var(--orange);
+  letter-spacing:3px;
+  margin-bottom:12px;
+}
+
+.desc{
+  color:var(--muted);
+  min-height:40px;
+  font-size:.95rem;
+}
+
+.copy{
+  margin-top:18px;
+  width:100%;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(180deg,var(--orange),var(--orange2));
+  color:white;
+  padding:12px;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:.2s;
+}
+
+.copy:hover{
+  filter:brightness(1.08);
+  box-shadow:0 0 18px rgba(255,106,0,.28);
+}
+
+.copy.done{
+  background:#2e8b57;
+}
+
+.footer{
+  padding:50px 0 70px;
+  text-align:center;
+  color:#666;
+  border-top:1px solid rgba(255,255,255,.08);
+  margin-top:30px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+@media(max-width:700px){
+
+  .logo{
+    font-size:3rem;
+  }
+
+  .code{
+    font-size:1.6rem;
+  }
+
+  .stats{
+    flex-direction:column;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+
+    <h1 class="logo">
+      RUST <span>DOOR</span><br>
+      CODE VAULT
+    </h1>
+
+    <p class="subtitle">
+      Massive collection of the most popular Rust keypad door codes used by clans,
+      solo players, roleplayers, trap bases, streamers, raiders and degenerates across the wasteland.
+    </p>
+
+    <div class="search-wrap">
+      <input type="text" class="search" id="search" placeholder="Search code or category...">
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <strong id="total">0</strong>
+        <span>Total Codes</span>
+      </div>
+
+      <div class="stat">
+        <strong>5</strong>
+        <span>Categories</span>
+      </div>
+
+      <div class="stat">
+        <strong>Rust</strong>
+        <span>Industrial Style</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="container" id="app"></main>
+
+<footer class="footer">
+  Rust Door Code Vault \Uffffffff Survive \Uffffffff Raid \Uffffffff Defend
+</footer>
+
+<script>
+
+const categories = [
+
+{
+  title:"Repeating Codes",
+  codes:[
+    "0000","1111","2222","3333","4444","5555","6666","7777","8888","9999",
+    "1212","6969","1010","2020","3030","4040","5050","6060","7070","8080",
+    "9090","1122","2211","3344","4455","5566","6677","7788","8899","9393",
+    "7474","5151","2727","1414","8181","9191","6262","3737","7878","5656"
+  ]
+},
+
+{
+  title:"Sequential Codes",
+  codes:[
+    "1234","2345","3456","4567","5678","6789","7890","9876","8765","7654",
+    "6543","5432","4321","3210","1357","2468","0246","8642","1470","2580",
+    "3690","1590","9510","0987","1123","1223","2334","3445","4556","5667",
+    "6778","7889","6780","2460","0192","7531","3579","9753","8520","1478"
+  ]
+},
+
+{
+  title:"Keypad Patterns",
+  codes:[
+    "2580","1478","1595","3571","7410","0852","9517","4563","7896","1236",
+    "2589","7412","8520","1593","4569","3579","9514","8521","7531","1597",
+    "4862","7415","9512","2586","4561","9632","7894","3570","8523","1470",
+    "2581","6541","3214","7418","8529","9630","1598","2587","3578","1479"
+  ]
+},
+
+{
+  title:"Meme / Community Codes",
+  codes:[
+    "1337","4200","6969","8008","0420","9000","7777","6660","1984","2007",
+    "2016","2024","6960","1234","1111","6966","5150","8000","3000","2718",
+    "3141","1338","8086","4040","4510","9001","2600","0070","7770","6666",
+    "9119","1987","4206","6669","6961","1999","6942","7771","4207","8007"
+  ]
+},
+
+{
+  title:"Team-Friendly Codes",
+  codes:[
+    "2468","1357","2580","8642","9753","7531","8080","5151","2020","9090",
+    "7744","8844","4455","5522","1100","7788","9091","4545","7373","1213",
+    "2727","5858","6767","7878","9898","3131","2424","8585","9393","5656",
+    "4747","7870","9099","5055","4400","2244","7755","9955","6644","5521"
+  ]
+}
+
+];
+
+const app = document.getElementById("app");
+const search = document.getElementById("search");
+
+function desc(cat){
+
+  const map = {
+    "Repeating Codes":"Easy to remember during raids.",
+    "Sequential Codes":"Classic sequential keypad combo.",
+    "Keypad Patterns":"Physical keypad movement pattern.",
+    "Meme / Community Codes":"Popular Rust meme code.",
+    "Team-Friendly Codes":"Fast teammate callout code."
+  };
+
+  return map[cat] || "Popular Rust code";
+
+}
+
+function render(filter=""){
+
+  app.innerHTML = "";
+
+  let total = 0;
+
+  categories.forEach(category => {
+
+    const filtered = category.codes.filter(code =>
+      code.includes(filter) ||
+      category.title.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    if(!filtered.length) return;
+
+    total += filtered.length;
+
+    const section = document.createElement("section");
+    section.className = "section";
+
+    section.innerHTML = `
+      <h2 class="section-title">${category.title}</h2>
+
+      <div class="grid">
+
+        ${filtered.map(code => `
+
+          <div class="card">
+
+            <div class="card-inner">
+
+              <div class="code">${code}</div>
+
+              <div class="desc">
+                ${desc(category.title)}
+              </div>
+
+              <button class="copy" data-code="${code}">
+                Copy Code
+              </button>
+
+            </div>
+
+          </div>
+
+        `).join("")}
+
+      </div>
+    `;
+
+    app.appendChild(section);
+
+  });
+
+  document.getElementById("total").textContent = total;
+
+  bindCopy();
+
+}
+
+function bindCopy(){
+
+  document.querySelectorAll(".copy").forEach(btn => {
+
+    btn.addEventListener("click", async () => {
+
+      const code = btn.dataset.code;
+
+      try{
+
+        await navigator.clipboard.writeText(code);
+
+        btn.innerText = "Copied";
+        btn.classList.add("done");
+
+        setTimeout(() => {
+          btn.innerText = "Copy Code";
+          btn.classList.remove("done");
+        }, 1400);
+
+      }catch{
+
+        alert("Copy failed");
+
+      }
+
+    });
+
+  });
+
+}
+
+search.addEventListener("input", e => {
+  render(e.target.value);
+});
+
+render();
+
+</script>
+
+</body>
+</html>
