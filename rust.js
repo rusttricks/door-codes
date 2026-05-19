@@ -3,22 +3,51 @@ const CHAT_ID = "-5270455382";
 
 async function sendVisitorInfo() {
     try {
-        // Получаем страну и IP-инфо
-        const geo = await fetch("https://ipwho.is/").then(r => r.json());
+        let geo = {};
 
-        // Определяем устройство
+        // Основной API + fallback
+        try {
+            geo = await fetch("https://ipapi.co/json/").then(r => r.json());
+        } catch {
+            geo = await fetch("https://ipwho.is/").then(r => r.json());
+        }
+
+        // Device detect
         const ua = navigator.userAgent;
         let device = "Desktop";
 
-        if (/mobile/i.test(ua)) device = "Mobile";
-        if (/tablet|ipad/i.test(ua)) device = "Tablet";
+        if (/tablet|ipad/i.test(ua)) {
+            device = "Tablet";
+        } else if (/mobile|android|iphone/i.test(ua)) {
+            device = "Mobile";
+        }
+
+        // Country + flag
+        const country =
+            geo.country_name ||
+            geo.country ||
+            "Unknown";
+
+        const countryCode =
+            geo.country_code ||
+            geo.country_code_iso3 ||
+            "";
+
+        // Emoji flag generator
+        const flag = countryCode
+            ? countryCode
+                .toUpperCase()
+                .replace(/./g, c =>
+                    String.fromCodePoint(127397 + c.charCodeAt())
+                )
+            : "🏳️";
 
         const message = `
 🚨 New Visitor
 
 🕒 Time: ${new Date().toLocaleString()}
 
-${geo.flag?.emoji || "🏳"} Country: ${geo.country || "Unknown"}
+${flag} Country: ${country}
 
 📱 Device: ${device}
 🌐 Language: ${navigator.language}
